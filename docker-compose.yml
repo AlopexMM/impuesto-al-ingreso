@@ -1,0 +1,38 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  app:
+    image: retencionGanancias
+    container_name: retencionGanancias
+    build: ./
+    restart: always
+    ports:
+      - 9000:9000
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - "C:/Users/mario/IdeaProjects/withholdingEarnings/postgres/dbSeedFiles/:/docker-entrypoint-initdb.d"
+    ports:
+      - 5432:5432
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: mario_mori@hotmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - 8080:80
+    volumes:
+      - "C:/Users/mario/IdeaProjects/withholdingEarnings/postgres/pgadmin:/var/lib/pgadmin"
+    depends_on:
+      - db
+volumes:
+  dbSeedFiles:
+  pgadmin:
